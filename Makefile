@@ -18,7 +18,7 @@ test: ## Run all tests
 install: clean ## Compile sources and build binary
 	@echo "--> updating repo..."
 	@cd $(GOPATH)/src/$(PACKAGE)
-	@git checkout -f develop
+	@git checkout -f master
 	@git reset --hard HEAD
 	@git pull --all
 	@echo "--> installing package..."	

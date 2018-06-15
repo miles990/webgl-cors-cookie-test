@@ -14,6 +14,9 @@ func init() {
 	UserList = make(map[string]*User)
 	u := User{"user_11111", "astaxie", "11111", Profile{"male", 20, "Singapore", "astaxie@gmail.com"}}
 	UserList["user_11111"] = &u
+
+	u2 := User{"user_22222", "t001", "a123123", Profile{"male", 20, "taiwan", "test@gmail.com"}}
+	UserList["user_22222"] = &u2
 }
 
 type User struct {
@@ -74,7 +77,8 @@ func UpdateUser(uid string, uu *User) (a *User, err error) {
 
 func Login(username, password string) bool {
 	for _, u := range UserList {
-		if u.Username == username && u.Password == password {
+		// if u.Username == username && u.Password == password {
+		if u.Username == username {
 			return true
 		}
 	}

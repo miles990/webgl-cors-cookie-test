@@ -1,8 +1,11 @@
 package controllers
 
 import (
-	"alex-text/models"
 	"encoding/json"
+	"fmt"
+	"strconv"
+	"time"
+	"webgl-cors-cookie-test/models"
 
 	"github.com/astaxie/beego"
 )
@@ -11,6 +14,8 @@ import (
 type UserController struct {
 	beego.Controller
 }
+
+var loginList = map[string]string{}
 
 // @Title CreateUser
 // @Description create users
@@ -96,15 +101,78 @@ func (u *UserController) Delete() {
 // @Param	password		query 	string	true		"The password for login"
 // @Success 200 {string} login success
 // @Failure 403 user not exist
-// @router /login [get]
+// @router /login [post]
 func (u *UserController) Login() {
 	username := u.GetString("username")
 	password := u.GetString("password")
+	random := u.GetString("random")
+	deviceType := u.GetString("type")
+	osInfo := u.GetString("osInfo")
+
+	beego.Info(fmt.Sprintf("username=%s, password=%s, random=%s, type=%s, osInfo=%s", username, password, random, deviceType, osInfo))
+	// all pass
+
 	if models.Login(username, password) {
-		u.Data["json"] = "login success"
+		// u.Data["json"] = "login success"
+		u.Data["json"] = map[string]interface{}{
+			"err":  "null",
+			"info": "29b6de8a20dae4e25cdf9b5be6d4e1b5",
+		}
+		var sessionID = strconv.FormatInt(time.Now().Unix(), 10)
+		loginList[username] = sessionID
+		var cookiesecret = beego.AppConfig.String("cookiesecret")
+		u.SetSecureCookie(cookiesecret, "session", sessionID, nil)
+		beego.Debug(fmt.Sprintf("set session=%s", sessionID))
 	} else {
-		u.Data["json"] = "user not exist"
+		// u.Data["json"] = "user not exist"
+		u.Data["json"] = map[string]interface{}{
+			"err":  "paasword",
+			"info": "用户名或者密码错误",
+		}
 	}
+	u.ServeJSON()
+}
+
+// @Title Info
+// @Description Logs user into the system
+// @Success 200 {string} login success
+// @Failure 403 user not exist
+// @router /info [post]
+func (u *UserController) Info() {
+
+	var cookiesecret = beego.AppConfig.String("cookiesecret")
+	var ok bool = false
+	var sessionID string = ""
+
+	sessionID, ok = u.GetSecureCookie(cookiesecret, "session")
+
+	if ok {
+		if sessionID == loginList["t001"] {
+			beego.Debug(fmt.Sprintf("get session=%s", sessionID))
+			u.Data["json"] = map[string]interface{}{
+				"Uid":      3,
+				"UserName": "t001",
+				"State":    0,
+				"Grade":    1,
+				"Amount":   2548.148,
+				"FAmount":  0.000,
+				"Percent":  0.9750,
+				"NewMsg":   true,
+			}
+		} else {
+			u.Data["json"] = map[string]interface{}{
+				"err":  "timeout",
+				"info": "登录超时,请重新登录!",
+			}
+		}
+
+	} else {
+		u.Data["json"] = map[string]interface{}{
+			"err":  "timeout",
+			"info": "登录超时,请重新登录!",
+		}
+	}
+
 	u.ServeJSON()
 }
 
@@ -116,4 +184,3 @@ func (u *UserController) Logout() {
 	u.Data["json"] = "logout success"
 	u.ServeJSON()
 }
-

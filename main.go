@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "alex-text/routers"
+	_ "webgl-cors-cookie-test/routers"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"

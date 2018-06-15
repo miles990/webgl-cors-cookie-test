@@ -120,8 +120,8 @@ func (u *UserController) Login() {
 		}
 		var sessionID = strconv.FormatInt(time.Now().Unix(), 10)
 		loginList[username] = sessionID
-		var cookiesecret = beego.AppConfig.String("cookiesecret")
-		u.SetSecureCookie(cookiesecret, "session", sessionID, nil)
+		var cookiesecret = beego.AppConfig.String("Cookie")
+		u.SetSecureCookie(cookiesecret, "Cookie", sessionID, nil)
 		beego.Debug(fmt.Sprintf("set session=%s", sessionID))
 	} else {
 		// u.Data["json"] = "user not exist"
@@ -140,11 +140,11 @@ func (u *UserController) Login() {
 // @router /info [post]
 func (u *UserController) Info() {
 
-	var cookiesecret = beego.AppConfig.String("cookiesecret")
+	var cookiesecret = beego.AppConfig.String("Cookie")
 	var ok bool = false
 	var sessionID string = ""
 
-	sessionID, ok = u.GetSecureCookie(cookiesecret, "session")
+	sessionID, ok = u.GetSecureCookie(cookiesecret, "Cookie")
 
 	if ok {
 		if sessionID == loginList["t001"] {

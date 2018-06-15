@@ -121,7 +121,7 @@ func (u *UserController) Login() {
 		loginList[username] = sessionID
 		var cookiesecret = beego.AppConfig.String("Cookie")
 		// u.SetSecureCookie(cookiesecret, "Cookie", sessionID, nil)
-		u.SetSecureCookie(cookiesecret, "sessionID", sessionID, 0, "/", "alex.xinhcao9999.com:8888", true, true)
+		u.SetSecureCookie(cookiesecret, "sessionID", sessionID, 0, "/", "alex.xinhcao9999.com:8888", true, false)
 		beego.Debug(fmt.Sprintf("set session=%s", sessionID))
 	} else {
 		// u.Data["json"] = "user not exist"

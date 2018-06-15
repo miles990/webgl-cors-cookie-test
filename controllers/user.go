@@ -3,8 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
-	"time"
 	"webgl-cors-cookie-test/models"
 
 	"github.com/astaxie/beego"
@@ -118,7 +116,7 @@ func (u *UserController) Login() {
 			"err":  "null",
 			"info": "29b6de8a20dae4e25cdf9b5be6d4e1b5",
 		}
-		var sessionID = strconv.FormatInt(time.Now().Unix(), 10)
+		var sessionID = "123456" //strconv.FormatInt(time.Now().Unix(), 10)
 		loginList[username] = sessionID
 		var cookiesecret = beego.AppConfig.String("Cookie")
 		u.SetSecureCookie(cookiesecret, "Cookie", sessionID, nil)

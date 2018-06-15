@@ -17,8 +17,8 @@ func main() {
 		AllowCredentials: true,
 		AllowOrigins:     []string{"cdn.xinchao068.com"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
-		AllowHeaders:     []string{"Authorization", "Content-Type", "User-Agent", "Cookie", "Accept"},
-		ExposeHeaders:    []string{"Set-Cookie"},
+		AllowHeaders:     []string{"Authorization", "Content-Type", "User-Agent", "Cookie", "Accept", "Set-Cookie", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "access-control-expose-headers"},
+		ExposeHeaders:    []string{"Set-Cookie", "Cookie", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "access-control-expose-headers"},
 	}))
 	beego.Run()
 }

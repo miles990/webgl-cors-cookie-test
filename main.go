@@ -13,7 +13,7 @@ func main() {
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		// AllowAllOrigins:  true,
+		AllowAllOrigins:  true,
 		AllowCredentials: true,
 		AllowOrigins:     []string{"cdn.xinchao068.com"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},

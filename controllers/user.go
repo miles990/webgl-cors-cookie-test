@@ -101,6 +101,7 @@ func (u *UserController) Delete() {
 // @Failure 403 user not exist
 // @router /login [post]
 func (u *UserController) Login() {
+
 	username := u.GetString("username")
 	password := u.GetString("password")
 	random := u.GetString("random")
@@ -119,7 +120,8 @@ func (u *UserController) Login() {
 		var sessionID = "123456" //strconv.FormatInt(time.Now().Unix(), 10)
 		loginList[username] = sessionID
 		var cookiesecret = beego.AppConfig.String("Cookie")
-		u.SetSecureCookie(cookiesecret, "Cookie", sessionID, nil)
+		// u.SetSecureCookie(cookiesecret, "Cookie", sessionID, nil)
+		u.SetSecureCookie(cookiesecret, "sessionID", sessionID, 0, "/", "alex.xinhcao9999.com:8888", true, true)
 		beego.Debug(fmt.Sprintf("set session=%s", sessionID))
 	} else {
 		// u.Data["json"] = "user not exist"
